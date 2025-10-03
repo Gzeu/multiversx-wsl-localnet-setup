@@ -1,0 +1,113 @@
+name: AI Security Analysis
+
+on:
+  workflow_dispatch:
+    inputs:
+      analysis_type:
+        description: 'Type of analysis to perform'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - security-only
+          - code-review
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Mondays at 2 AM UTC
+  push:
+    branches: [ main ]
+    paths:
+      - '**.sh'
+      - '**.rs'
+      - 'Makefile'
+
+jobs:
+  ai-security-analysis:
+    runs-on: ubuntu-latest
+    name: AI-Powered Security Analysis
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js for AI tools
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install AI analysis tools
+        run: |
+          npm install -g @google/gemini-cli@latest || echo "Gemini CLI install skipped"
+
+      - name: Setup Python for security tools
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install security analysis tools
+        run: |
+          pip install semgrep bandit safety
+          
+      - name: Run comprehensive security scan
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANALYSIS_TYPE: ${{ github.event.inputs.analysis_type || 'full' }}
+        run: |
+          chmod +x ./advanced-security.sh
+          ./advanced-security.sh --ai-enhanced
+          
+      - name: Run AI assistant security review
+        if: env.GEMINI_API_KEY
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          chmod +x ./ai-assistant.sh
+          ./ai-assistant.sh review . > ai_security_report.md
+          
+      - name: Generate security summary
+        run: |
+          echo "## AI Security Analysis Summary" > security_summary.md
+          echo "**Scan Date:** $(date -u)" >> security_summary.md
+          echo "**Repository:** ${{ github.repository }}" >> security_summary.md
+          echo "**Commit:** ${{ github.sha }}" >> security_summary.md
+          echo "" >> security_summary.md
+          
+          if [ -f "ai_security_report.md" ]; then
+            echo "### AI Analysis Results" >> security_summary.md
+            cat ai_security_report.md >> security_summary.md
+          else
+            echo "### AI Analysis Results" >> security_summary.md
+            echo "AI analysis skipped - GEMINI_API_KEY not configured" >> security_summary.md
+          fi
+
+      - name: Upload security artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-analysis-${{ github.run_number }}
+          path: |
+            security_summary.md
+            ai_security_report.md
+            semgrep_results.json
+            bandit_results.json
+          retention-days: 30
+
+      - name: Comment PR with AI insights
+        if: github.event_name == 'pull_request' && env.GEMINI_API_KEY
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('security_summary.md')) {
+              const summary = fs.readFileSync('security_summary.md', 'utf8');
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🤖 AI Security Analysis\n\n${summary}`
+              });
+            }
