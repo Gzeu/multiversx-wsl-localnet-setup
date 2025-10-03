@@ -1,0 +1,124 @@
+name: MultiversX CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  RUST_BACKTRACE: 1
+  CARGO_TERM_COLOR: always
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security & Quality Checks
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep bandit
+
+      - name: Run security scanner
+        run: |
+          chmod +x ./advanced-security.sh
+          ./advanced-security.sh
+
+      - name: Run Semgrep security analysis
+        run: |
+          semgrep --config=auto --error --exclude="node_modules/" --exclude="target/" .
+
+      - name: Validate shell scripts
+        run: |
+          find . -name "*.sh" -type f -exec shellcheck {} +
+
+  build-test:
+    runs-on: ubuntu-latest
+    name: Build & Test
+    needs: security-scan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install MultiversX SDK
+        run: |
+          pip3 install multiversx-sdk-cli --user
+          export PATH="$HOME/.local/bin:$PATH"
+
+      - name: Make scripts executable
+        run: chmod +x *.sh
+
+      - name: Run setup validation
+        run: |
+          ./setup.sh --validate
+
+      - name: Test localnet configuration
+        run: |
+          make validate-config
+
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Docker Build Test
+    needs: build-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Test monitoring stack
+        run: |
+          chmod +x ./scripts/enterprise-monitoring.sh
+          # Test docker compose files are valid
+          docker compose -f tools/monitoring.compose.yml config
+
+  documentation:
+    runs-on: ubuntu-latest
+    name: Documentation & Compliance
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate compliance report
+        run: |
+          chmod +x ./scripts/compliance-suite.sh
+          ./scripts/compliance-suite.sh
+
+      - name: Check documentation completeness
+        run: |
+          # Ensure all scripts have proper headers and documentation
+          find . -name "*.sh" -exec grep -L "^# " {} + | tee missing_docs.txt
+          test ! -s missing_docs.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: compliance-reports
+          path: |
+            compliance_report_*.md
+            security_report_*.txt
