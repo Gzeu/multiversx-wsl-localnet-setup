@@ -1,230 +1,388 @@
-# MultiversX WSL Localnet Setup
+# MultiversX WSL Localnet Setup - Complete Development Suite
 
-**Automation bash scripts, configs, and docs for MultiversX Localnet/Testnet dev setup in WSL2/Ubuntu. Includes CLI, Rust, sc-meta, and troubleshooting.**
+🚀 **Professional MultiversX localnet development environment with advanced monitoring, testing, and management tools**
 
----
+A comprehensive bash-based toolkit for MultiversX blockchain development, featuring automated setup, real-time monitoring, performance testing, backup/recovery, and configuration management - all optimized for WSL2/Ubuntu environments.
 
-## 🎯 Project Theme
+## ✨ Features
 
-This repository provides a comprehensive, automated solution for setting up a complete MultiversX development environment on Windows Subsystem for Linux 2 (WSL2) or native Ubuntu systems. It streamlines the installation and configuration of all necessary tools, dependencies, and blockchain nodes for smart contract development, testing, and deployment on MultiversX.
+### 🎯 Core Functionality
+- **Automated Setup**: One-click MultiversX localnet installation and configuration
+- **Interactive Management**: Beautiful terminal-based UI for all operations
+- **WSL2 Optimized**: Specifically designed for Windows Subsystem for Linux
+- **Template-Based Config**: Pre-configured templates for different development scenarios
 
-**Key Focus Areas:**
-- ✅ Zero-friction environment setup for MultiversX development
-- ✅ Localnet and Testnet configuration automation
-- ✅ Smart contract development toolchain (Rust, sc-meta, mxpy)
-- ✅ Common troubleshooting scenarios and solutions
-- ✅ Best practices for WSL2/Ubuntu MultiversX development
+### 📊 Advanced Monitoring
+- **Real-time Dashboard**: Web-based monitoring interface with live metrics
+- **Performance Analytics**: TPS monitoring, transaction tracking, and network statistics
+- **Visual Reporting**: Auto-generated performance reports and charts
+- **Alerting System**: Automated notifications for network issues
 
----
+### 🧪 Testing & Benchmarking
+- **Comprehensive Test Suite**: Automated testing for all network components
+- **Performance Benchmarks**: Throughput testing and stress testing capabilities
+- **Smart Contract Testing**: Automated deployment and interaction testing
+- **Load Testing**: Multi-threaded transaction generation and analysis
 
-## 🚀 Quick Start Workflow
+### 💾 Backup & Recovery
+- **Automated Backups**: Scheduled full and incremental backups
+- **Quick Recovery**: One-click restore from any backup point
+- **Data Integrity**: Backup verification and corruption detection
+- **Version Management**: Automatic cleanup of old backups
+
+### ⚙️ Configuration Management
+- **Multiple Templates**: Dev, Test, Production, and CI/CD configurations
+- **Dynamic Switching**: Hot-swap between different network configurations
+- **Custom Profiles**: Create and manage custom configuration templates
+- **Environment Optimization**: Tailored settings for different use cases
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Windows 10/11 with WSL2 enabled OR Ubuntu 20.04/22.04 LTS
-- At least 8GB RAM and 20GB free disk space
-- Basic familiarity with terminal/command line
+- Windows 10/11 with WSL2 enabled
+- Ubuntu 20.04+ (or compatible Linux distribution)
+- Python 3.8+
+- Git
 
-### Installation Steps
+### Installation
 
-1. **Clone this repository:**
+```bash
+# Clone the repository
+git clone https://github.com/Gzeu/multiversx-wsl-localnet-setup.git
+cd multiversx-wsl-localnet-setup
+
+# Make scripts executable
+chmod +x *.sh
+
+# Launch the interactive manager
+./multiversx-localnet-manager.sh
+```
+
+### One-Line Setup
+```bash
+curl -sSL https://raw.githubusercontent.com/Gzeu/multiversx-wsl-localnet-setup/main/setup.sh | bash
+```
+
+## 📋 Usage
+
+### Interactive Mode (Recommended)
+
+Launch the comprehensive management interface:
+
+```bash
+./multiversx-localnet-manager.sh
+```
+
+This provides a beautiful terminal interface with:
+- ✅ Real-time status display
+- 🎮 Easy navigation with number keys
+- 📊 Integrated monitoring and testing
+- 🔧 Configuration management
+- 💾 Backup operations
+
+### Command Line Interface
+
+For automation and scripting:
+
+```bash
+# Basic operations
+./multiversx-localnet-manager.sh --cli start
+./multiversx-localnet-manager.sh --cli stop
+./multiversx-localnet-manager.sh --cli status
+
+# Advanced operations
+./multiversx-localnet-manager.sh --cli dashboard
+./multiversx-localnet-manager.sh --cli test all
+./multiversx-localnet-manager.sh --cli backup create
+```
+
+### Individual Components
+
+Each component can be used independently:
+
+```bash
+# Monitoring Dashboard
+./monitor-dashboard.sh start          # Start monitoring
+./monitor-dashboard.sh dashboard      # Launch web dashboard
+
+# Testing Suite
+./test-benchmark.sh all              # Run all tests
+./test-benchmark.sh throughput       # TPS benchmark
+./test-benchmark.sh contract         # Smart contract tests
+
+# Configuration Management
+./config-manager.sh init             # Create templates
+./config-manager.sh apply dev        # Apply dev template
+./config-manager.sh list             # List all templates
+
+# Backup System
+./backup-recovery.sh create          # Create full backup
+./backup-recovery.sh restore backup_name
+./backup-recovery.sh schedule 24     # Auto backup every 24h
+```
+
+## 🎯 Configuration Templates
+
+### Development Template (`dev`)
+- **Round Duration**: 2 seconds (fast iteration)
+- **Validators**: 1 per shard (minimal setup)
+- **Features**: All enabled from epoch 0
+- **Use Case**: Daily development work
+
+### Testing Template (`test`) 
+- **Round Duration**: 6 seconds (testnet-like)
+- **Validators**: 2 per shard (realistic consensus)
+- **Features**: Testnet-like conditions
+- **Use Case**: Pre-deployment testing
+
+### Production Template (`production`)
+- **Round Duration**: 6 seconds (mainnet-like)
+- **Validators**: Large consensus groups
+- **Features**: Full security features
+- **Use Case**: Final validation
+
+### CI/CD Template (`ci`)
+- **Round Duration**: 1 second (ultra-fast)
+- **Validators**: Minimal (resource optimized)
+- **Features**: Lightweight for automation
+- **Use Case**: Automated testing pipelines
+
+## 📊 Monitoring Dashboard
+
+Access the real-time web dashboard at `http://localhost:8080` after starting monitoring:
+
+### Features
+- 📈 **Live Metrics**: TPS, block height, transaction count
+- 🔄 **Network Status**: Real-time validator and shard status
+- 📋 **Activity Logs**: Recent network activity and events
+- 🎨 **Beautiful UI**: Modern, responsive design with animations
+- 🔄 **Auto-refresh**: Updates every 5 seconds
+
+## 🧪 Testing Capabilities
+
+### Test Types
+- **Connectivity Tests**: API endpoint validation
+- **Throughput Benchmarks**: TPS measurement and analysis
+- **Smart Contract Tests**: Deployment and interaction testing
+- **Stress Tests**: Network resilience under load
+- **Integration Tests**: End-to-end workflow validation
+
+### Test Reports
+Automatically generated reports include:
+- Performance metrics and recommendations
+- Network stability analysis
+- Optimization suggestions
+- Comparative benchmarks
+
+## 💾 Backup System
+
+### Backup Types
+- **Full Backups**: Complete network state snapshot
+- **Incremental Backups**: Only changed files since last backup
+- **Scheduled Backups**: Automated periodic backups
+- **Metadata Tracking**: Detailed backup information and integrity
+
+### Recovery Options
+- **Point-in-time Recovery**: Restore to any backup timestamp
+- **Selective Recovery**: Restore specific components only
+- **Integrity Verification**: Validate backup before restore
+- **Safe Recovery**: Automatic backup of current state before restore
+
+## 🔧 Advanced Configuration
+
+### Environment Variables
+
+```bash
+# Localnet Configuration
+export LOCALNET_SHARDS=3                    # Number of shards
+export LOCALNET_VALIDATORS_PER_SHARD=2       # Validators per shard
+export LOCALNET_ROUND_DURATION=4000          # Round duration (ms)
+export LOCALNET_ROUNDS_PER_EPOCH=50          # Rounds per epoch
+
+# Monitoring Configuration
+export MONITORING_PORT=8080                  # Dashboard port
+export METRICS_INTERVAL=5                    # Metric collection interval
+export MAX_BACKUPS=10                        # Maximum backup retention
+
+# Testing Configuration
+export TEST_DURATION=60                      # Test duration (seconds)
+export MAX_TPS_TARGET=50                     # Target TPS for benchmarks
+```
+
+### Custom Templates
+
+Create custom configuration templates:
+
+1. Initialize template system: `./config-manager.sh init`
+2. Copy existing template: `cp -r configs/templates/dev configs/templates/custom`
+3. Modify configuration files in `configs/templates/custom/`
+4. Apply custom template: `./config-manager.sh apply custom`
+
+## 🛠️ Development Workflow
+
+### Recommended Development Process
+
+1. **Setup**: Use dev template for fast iteration
    ```bash
-   git clone https://github.com/Gzeu/multiversx-wsl-localnet-setup.git
-   cd multiversx-wsl-localnet-setup
+   ./config-manager.sh apply dev
+   ./multiversx-localnet-manager.sh --cli start
    ```
 
-2. **Run the main setup script:**
+2. **Development**: Code and test with real-time monitoring
    ```bash
-   chmod +x setup.sh
-   ./setup.sh
-   ```
-   This will automatically install:
-   - System dependencies (build tools, libraries)
-   - Rust toolchain (via rustup)
-   - MultiversX CLI (`mxpy`)
-   - `sc-meta` for smart contract management
-   - Node.js and development utilities
-
-3. **Initialize the localnet:**
-   ```bash
-   ./init-localnet.sh
-   ```
-   This configures and starts a local MultiversX blockchain for development.
-
-4. **Verify installation:**
-   ```bash
-   mxpy --version
-   sc-meta --version
-   rustc --version
+   ./monitor-dashboard.sh dashboard  # Launch monitoring
+   # Develop your smart contracts...
    ```
 
----
-
-## 📋 Main Components
-
-### Core Scripts
-- **`setup.sh`** - Master installation script for all dependencies
-- **`init-localnet.sh`** - Localnet initialization and configuration
-- **`start-localnet.sh`** - Start local blockchain nodes
-- **`stop-localnet.sh`** - Stop local blockchain nodes
-- **`reset-localnet.sh`** - Reset localnet to clean state
-- **`install-rust.sh`** - Standalone Rust toolchain installer
-- **`install-mxpy.sh`** - MultiversX Python CLI installer
-- **`install-sc-meta.sh`** - Smart contract meta-build tool installer
-
-### Configuration Files
-- **`config/`** - Node configurations, genesis files, validator keys
-- **`wallets/`** - Development wallet PEM files (DO NOT use in production)
-- **`docker/`** - Docker Compose configurations for containerized setup
-
-### Documentation
-- **`docs/INSTALLATION.md`** - Detailed installation guide
-- **`docs/TROUBLESHOOTING.md`** - Common issues and solutions
-- **`docs/TESTNET.md`** - Connecting to MultiversX Testnet
-- **`docs/SMART_CONTRACTS.md`** - SC development workflow
-- **`docs/WSL2_OPTIMIZATION.md`** - WSL2-specific performance tips
-
----
-
-## 🔧 Development Workflow
-
-### Typical Development Cycle
-
-1. **Start your local blockchain:**
+3. **Testing**: Run comprehensive tests
    ```bash
-   ./start-localnet.sh
+   ./test-benchmark.sh all
    ```
 
-2. **Create a new smart contract project:**
+4. **Pre-deployment**: Switch to test template
    ```bash
-   sc-meta new --template adder my-contract
-   cd my-contract
+   ./config-manager.sh apply test
+   ./multiversx-localnet-manager.sh --cli reset
+   ./test-benchmark.sh all
    ```
 
-3. **Build your smart contract:**
+5. **Backup**: Create backup before major changes
    ```bash
-   sc-meta all build
+   ./backup-recovery.sh create
    ```
 
-4. **Deploy to localnet:**
-   ```bash
-   mxpy contract deploy --bytecode=output/my-contract.wasm \
-     --pem=../wallets/wallet-owner.pem \
-     --proxy=http://localhost:7950 \
-     --chain=localnet \
-     --recall-nonce \
-     --gas-limit=5000000
-   ```
+### CI/CD Integration
 
-5. **Interact with deployed contract:**
-   ```bash
-   mxpy contract call <CONTRACT_ADDRESS> \
-     --function="myFunction" \
-     --arguments <ARGS> \
-     --pem=../wallets/wallet-owner.pem \
-     --proxy=http://localhost:7950 \
-     --chain=localnet
-   ```
+```yaml
+# GitHub Actions example
+- name: Setup MultiversX Localnet
+  run: |
+    git clone https://github.com/Gzeu/multiversx-wsl-localnet-setup.git
+    cd multiversx-wsl-localnet-setup
+    ./config-manager.sh apply ci
+    ./multiversx-localnet-manager.sh --cli start
+    
+- name: Run Tests
+  run: |
+    cd multiversx-wsl-localnet-setup
+    ./test-benchmark.sh all
+```
 
-6. **Stop localnet when done:**
-   ```bash
-   ./stop-localnet.sh
-   ```
+## 📁 Directory Structure
 
----
+```
+multiversx-wsl-localnet-setup/
+├── 🚀 multiversx-localnet-manager.sh    # Master control script
+├── ⚙️  setup.sh                         # Initial setup
+├── ▶️  start-localnet.sh                # Start localnet
+├── ⏹️  stop-localnet.sh                 # Stop localnet
+├── 🔄 reset-localnet.sh                # Reset localnet
+├── 💰 faucet.sh                        # Fund wallets
+├── 📊 monitor-dashboard.sh             # Monitoring & dashboard
+├── 🧪 test-benchmark.sh                # Testing suite
+├── 💾 backup-recovery.sh               # Backup system
+├── ⚙️  config-manager.sh                # Configuration management
+├── 📋 contracts/                       # Smart contract templates
+├── 🔧 configs/                         # Configuration templates
+├── 💾 backups/                         # Backup storage
+├── 📊 test-results/                    # Test reports
+├── 📈 dashboard/                       # Web dashboard files
+├── 📝 logs/                            # System logs
+└── 📊 data/                            # Runtime data
+```
 
-## 🛠️ Troubleshooting Quick Reference
+## 🔍 Troubleshooting
 
 ### Common Issues
 
-**Issue: `mxpy: command not found`**
+**Localnet won't start:**
 ```bash
-# Solution: Reload shell configuration
-source ~/.bashrc  # or ~/.zshrc
-# OR reinstall mxpy
-./install-mxpy.sh
-```
+# Check dependencies
+./multiversx-localnet-manager.sh --cli status
 
-**Issue: Localnet nodes won't start**
-```bash
-# Check for port conflicts
-sudo netstat -tulpn | grep -E '7950|10000'
-# Kill conflicting processes
-./stop-localnet.sh
+# Reset everything
 ./reset-localnet.sh
-./start-localnet.sh
+./setup.sh
 ```
 
-**Issue: Rust compilation errors**
+**Port conflicts:**
 ```bash
-# Update Rust to latest stable
-rustup update stable
-rustup default stable
-# Clean and rebuild
-cargo clean
-sc-meta all build
+# Check what's using port 7950
+sudo netstat -tlnp | grep 7950
+
+# Kill conflicting processes
+sudo pkill -f mxpy
 ```
 
-**Issue: WSL2 performance issues**
-- Store projects in WSL filesystem (`~/projects`), not Windows mounts (`/mnt/c/`)
-- Increase WSL2 memory: Create `%USERPROFILE%\.wslconfig` with:
-  ```ini
-  [wsl2]
-  memory=8GB
-  processors=4
-  ```
+**WSL2 networking issues:**
+```bash
+# Restart WSL networking
+wsl --shutdown
+# Restart your WSL terminal
+```
 
-For detailed troubleshooting, see **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)**
+**Performance issues:**
+```bash
+# Use CI template for lightweight setup
+./config-manager.sh apply ci
 
----
+# Reduce monitoring frequency
+export METRICS_INTERVAL=30
+```
 
-## 📚 Additional Resources
+### Log Analysis
 
-- [MultiversX Official Documentation](https://docs.multiversx.com/)
-- [MultiversX SDK Cookbook](https://docs.multiversx.com/sdk-and-tools/sdk-py/)
-- [Smart Contract Examples](https://github.com/multiversx/mx-sdk-rs/tree/master/contracts/examples)
-- [MultiversX Developer Discord](https://discord.gg/multiversx)
-- [Rust Book](https://doc.rust-lang.org/book/)
+```bash
+# View real-time logs
+./multiversx-localnet-manager.sh         # Option 10
 
----
+# Or manually:
+tail -f logs/*.log
+tail -f ~/MultiversX/testnet/logs/*.log
+```
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
-1. Fork this repository
-2. Create a feature branch (`git checkout -b feature/improvement`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/improvement`)
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
----
+### Development Guidelines
+
+- Follow existing code style and structure
+- Add appropriate logging and error handling
+- Update documentation for new features
+- Test on Ubuntu 20.04+ and WSL2
+- Ensure backward compatibility
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**George Pricop (@Gzeu)**
+- GitHub: [@Gzeu](https://github.com/Gzeu)
+- MultiversX Developer & Blockchain Enthusiast
+- Location: București, Romania
+
+## 🙏 Acknowledgments
+
+- MultiversX Team for the excellent blockchain platform
+- MultiversX Developer Community for guidance and feedback
+- WSL2 team for making Linux development on Windows seamless
+
+## 📊 Project Stats
+
+![GitHub stars](https://img.shields.io/github/stars/Gzeu/multiversx-wsl-localnet-setup?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Gzeu/multiversx-wsl-localnet-setup?style=social)
+![GitHub issues](https://img.shields.io/github/issues/Gzeu/multiversx-wsl-localnet-setup)
+![GitHub license](https://img.shields.io/github/license/Gzeu/multiversx-wsl-localnet-setup)
 
 ---
 
-## ⚠️ Security Notice
-
-**WARNING:** The wallet PEM files included in this repository are for **DEVELOPMENT USE ONLY**. Never use these keys on mainnet or with real funds. Always generate new, secure keys for testnet and production deployments.
-
----
-
-## 🔔 Project Status
-
-**Current Version:** 1.0.0 (Initial Setup)  
-**Status:** 🚧 Active Development  
-**Last Updated:** October 2025
-
-### Roadmap
-- [ ] Complete automation scripts (setup, localnet management)
-- [ ] Add comprehensive documentation
-- [ ] Docker Compose configurations
-- [ ] CI/CD integration examples
-- [ ] Video tutorials and screencasts
-- [ ] Performance optimization guides
-- [ ] Integration with popular IDEs (VS Code, IntelliJ)
-
----
-
-**Happy Building on MultiversX! 🚀**
+⭐ **If this project helped you, please give it a star!** ⭐
